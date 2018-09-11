@@ -1,19 +1,53 @@
 const Modelo = function(){
     this.productos = []
 
+    this.recuperarProductos();
 };
 
-Modelo.prototype.inicializar = function() {
-    for (let i = 0; i < listNombres.length; i++ ){
-        const imagen = 'img/product' + (i+1) + '.png';
-        let favorito = false; 
+Modelo.prototype.guardarProductos = function(){
+    localStorage.setItem("productos", JSON.stringify(this.productos));
+}
 
-        if (i === 1){
-            favorito = true; 
-        }
-        
-        const producto = new Producto(listNombres[i], precios[i],stock[i],detalles[i],imagen,favorito);
+Modelo.prototype.recuperarProductos = function(){
+    const elementos = JSON.parse(localStorage.getItem("productos"));
 
-        this.productos.push(producto);
+    if (elementos === null){
+        this.cargarListado();
+    } else {
+        this.productos = elementos;
     }
+}
+
+Modelo.prototype.cargarListado = function() {
+    const self = this;
+
+    listNombres.forEach(function(elemento, index){
+        const imagen = 'img/product' + (index+1) + '.png';
+        let favorito = false;
+
+        if (index === 1){
+            favorito = true;
+        }
+
+        const producto = new Producto(index, elemento, precios[index],stock[index],detalles[index],imagen,favorito);
+
+        self.productos.push(producto);
+    })
 };
+
+Modelo.prototype.cambiarFavorito = function(idProducto){
+    const self = this;
+
+    this.productos.forEach(function(elemento, index){
+        if (elemento.id === idProducto) {
+            if (elemento.favorito){
+                elemento.favorito = false;
+            } else {
+                elemento.favorito = true;
+            };
+        };
+    })
+
+    this.guardarProductos();
+}
+

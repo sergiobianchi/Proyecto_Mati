@@ -41,5 +41,24 @@ Lo primero que vamos a tener en pantalla es un listado de los productos disponib
 ## Pasos ………
 Acá vas a ir anotando los pasos que vos o tu equipo van haciendo para lograr los objetivos.
 
-* Modelo
-* Objeto
+* Generamos el Modelo
+* Generamos el Objeto
+* Trabajamos en el HTML creando los espacios para mostrar el listado
+* Generamos en la vista los metodos para  
+	construir
+	inicializar
+	listar productos
+	modelamos el tipo de tarjeta de caja producto
+	cambiar favorito
+	mostrar detalle de producto
+	mostrar todos los favoritos
+
+* Generamos en el modelo los metodos para
+	contruir
+	guardar y recuperar productos desde el localstorage
+	cargar el listado de productos
+	cambiar la condicion de favorito
+
+* Generamos en el contolador los metodos para
+	contruir
+	cambiar el estado de favorito

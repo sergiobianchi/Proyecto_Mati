@@ -7,8 +7,8 @@ const stock = [1,42, 3, 200, 342, 10, 100, 6, 0]
 
 
 
-const Producto = function(nombre, precio, stock, detalle, imagen, favorito){
-    this.id = Date.now(),
+const Producto = function(id, nombre, precio, stock, detalle, imagen, favorito){
+    this.id = id,
     this.nombre = nombre,
     this.precio = precio,
     this.stock = stock,

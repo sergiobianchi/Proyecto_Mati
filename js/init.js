@@ -1,7 +1,7 @@
-const modelo = new Modelo;
+const modelo = new Modelo();
 
-modelo.inicializar();
+const controlador = new Controlador(modelo);
 
-const vista = new Vista(modelo);
+const vista = new Vista(controlador);
 
-vista.mostrarProductos();
+vista.inicializar();
