@@ -41,3 +41,5 @@ Lo primero que vamos a tener en pantalla es un listado de los productos disponib
 ## Pasos ………
 Acá vas a ir anotando los pasos que vos o tu equipo van haciendo para lograr los objetivos.
 
+* Modelo
+* Objeto
