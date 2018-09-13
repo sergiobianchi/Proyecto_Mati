@@ -71,7 +71,7 @@ Vista.prototype.crearTarjetaDeProducto = function(producto) {
 
     //Buscamos el elemento favorito y le registramos al evento click, la funcionalidad de modificar la condicion de favorito
     card.find(".favorito").click(function() {
-        self.cambiarFavorito(producto);
+        self.cambiarFavorito(producto, false);
     });
 
     return card;
@@ -106,16 +106,20 @@ Vista.prototype.crearTarjetaDeProductoDetallado = function(producto) {
         self.ocultarModal();
     });
 
+    card.find(".favorito").click(function() {
+        self.cambiarFavorito(producto, true);
+    });
+
     return card;
 }
 
-Vista.prototype.cambiarFavorito = function(producto) {
-    this.controlador.cambiarFavorito(producto.id);
-    this.listarProductos();
-}
+Vista.prototype.cambiarFavorito = function(producto, modal) {
+    this.controlador.cambiarFavorito(producto.id);   
+    this.listarProductos(this.soloFavoritos);
 
-Vista.prototype.mostrarFavoritos = function() {
-console.log("Muestra Favoritos")
+    if (modal){
+        this.mostrarProducto(producto);
+    }
 }
 
 Vista.prototype.mostrarProducto = function(producto) {
