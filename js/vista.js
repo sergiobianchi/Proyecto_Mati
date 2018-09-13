@@ -1,6 +1,7 @@
 const Vista = function(controlador) {
     this.controlador = controlador,
-    this.modelo = controlador.modelo
+    this.modelo = controlador.modelo,
+    this.contenedorModal = $('#contenedor-productos-modal')[0]
 };
 
 Vista.prototype.inicializar = function(){
@@ -11,7 +12,6 @@ Vista.prototype.inicializar = function(){
     $('.contenedor-favoritos').find(".favoritos").click(function() {
         self.mostrarFavoritos();
     });
-    
 }
 
 Vista.prototype.listarProductos = function(){
@@ -73,6 +73,38 @@ Vista.prototype.crearTarjetaDeProducto = function(producto) {
     return card;
 }
 
+//Función que se encarga de crear todos los elementos HTML necesarios para poder visualizar un producto Detallado
+Vista.prototype.crearTarjetaDeProductoDetallado = function(producto) {
+    const self = this;
+    let icono = "img/nofavorito.png";
+
+    // Creamos el elemento de producto, asignandole cada atributo del producto que corresponda
+    if (producto.favorito){
+        icono = "img/favorito.jpg";
+    }
+
+    const card = $(`
+    <div class="flex-item-modal" id=${producto.id}>
+        <img class="imagen-modal" src="${producto.imagen}">
+        <div class="informacion">
+            <div class="nombre-favorito-container">
+                <h4 class="modal">${producto.nombre}</h4>
+                <div class="favorito-container">
+                    <img class="favorito" src="${icono}">
+                </div>
+            </div>
+            <spam class="modal">${producto.detalle}</spam>
+        </div>
+    </div>
+    `);
+
+    card.find(".imagen-modal").click(function() {
+        self.ocultarModal();
+    });
+
+    return card;
+}
+
 Vista.prototype.cambiarFavorito = function(producto) {
     this.controlador.cambiarFavorito(producto.id);
     this.listarProductos();
@@ -83,5 +115,18 @@ console.log("Muestra Favoritos")
 }
 
 Vista.prototype.mostrarProducto = function(producto) {
-    console.log("Muestra Detalle")
+    $("#contenedor-productos-modal").empty();
+    const productoDetalle = this.crearTarjetaDeProductoDetallado(producto);
+    productoDetalle.appendTo("#contenedor-productos-modal");
+    this.mostrarModal();
+
+    console.log("Muestra Detalle");
+}
+
+Vista.prototype.mostrarModal = function(){
+    this.contenedorModal.style.display = "block";
+}
+
+Vista.prototype.ocultarModal = function(){
+    this.contenedorModal.style.display = "none";
 }
