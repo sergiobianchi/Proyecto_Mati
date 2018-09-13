@@ -1,21 +1,32 @@
 const Modelo = function(){
-    this.productos = []
+    this.productos = [];
+    this.favoritos = [1];
 
     this.recuperarProductos();
 };
 
 Modelo.prototype.guardarProductos = function(){
-    localStorage.setItem("productos", JSON.stringify(this.productos));
+    this.favoritos = [];
+
+    const self = this;
+
+    this.productos.forEach(function(elemento, index){
+        if (elemento.favorito){
+            self.favoritos.push(elemento.id);
+        };
+    });
+
+    localStorage.setItem("favoritos", JSON.stringify(this.favoritos));
 }
 
 Modelo.prototype.recuperarProductos = function(){
-    const elementos = JSON.parse(localStorage.getItem("productos"));
+    const favoritos = JSON.parse(localStorage.getItem("favoritos"));
 
-    if (elementos === null){
-        this.cargarListado();
-    } else {
-        this.productos = elementos;
+    if (favoritos !== null){
+        this.favoritos = favoritos;
     }
+
+    this.cargarListado();
 }
 
 Modelo.prototype.cargarListado = function() {
@@ -23,11 +34,12 @@ Modelo.prototype.cargarListado = function() {
 
     listNombres.forEach(function(elemento, index){
         const imagen = 'img/product' + (index+1) + '.png';
-        let favorito = false;
 
-        if (index === 1){
+        let favorito = false;
+        
+        if (self.favoritos.indexOf(index) >= 0){
             favorito = true;
-        }
+        };
 
         const producto = new Producto(index, elemento, precios[index],stock[index],detalles[index],imagen,favorito);
 
