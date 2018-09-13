@@ -1,21 +1,23 @@
-const Vista = function(controlador) {
+const Vista = function(controlador, soloFavoritos) {
     this.controlador = controlador,
     this.modelo = controlador.modelo,
+    this.soloFavoritos = soloFavoritos,
     this.contenedorModal = $('#contenedor-productos-modal')[0]
 };
 
 Vista.prototype.inicializar = function(){
-    this.listarProductos();
     const self = this;
 
+    this.listarProductos(self.soloFavoritos);
     //Buscamos el elemento favoritos y le registramos al evento click, la funcionalidad de mostrar todos los favoritos
     $('.contenedor-favoritos').find(".favoritos").click(function() {
         self.mostrarFavoritos();
     });
 }
 
-Vista.prototype.listarProductos = function(){
+Vista.prototype.listarProductos = function(soloFavoritos){
     const listaProductos = this.modelo.productos;
+    const listaFavoritos = soloFavoritos;
     const self = this;
     const elementos = [];
 
@@ -26,7 +28,9 @@ Vista.prototype.listarProductos = function(){
     } else {
         //Por cada producto, se ejecuta la función crearTarjetaDeProducto()
         listaProductos.forEach(function(producto) {
-            elementos.push(self.crearTarjetaDeProducto(producto));
+            if ((listaFavoritos && producto.favorito) || !listaFavoritos){
+                elementos.push(self.crearTarjetaDeProducto(producto));
+            } 
         });
     }
 
